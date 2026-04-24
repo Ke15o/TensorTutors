@@ -18,22 +18,33 @@ export function TutorialSidebar({ topic, activeConceptId }: TutorialSidebarProps
         <nav className="mt-5 grid gap-5" aria-label={`${topic.title} concepts`}>
           {topic.subtopics.map((subtopic) => (
             <section key={subtopic.slug}>
-              <h3 className="px-2 text-center text-xs font-semibold uppercase text-chalk-400">{subtopic.title}</h3>
+              <h3 className="text-xs font-semibold uppercase text-chalk-400">{subtopic.title}</h3>
               <div className="mt-2 grid gap-1 lg:-ml-8 lg:-mr-6">
-                {subtopic.concepts.map((concept) => (
-                  <a
-                    key={concept.id}
-                    className={classNames(
-                      "focus-ring rounded-md px-3 py-2 text-sm transition lg:rounded-none lg:px-8 lg:pr-6",
-                      activeConceptId === concept.id
-                        ? "bg-circuit-300/10 text-circuit-300"
-                        : "text-chalk-200/75 hover:bg-white/5 hover:text-chalk-100",
-                    )}
-                    href={getConceptHref(topic, subtopic, concept)}
-                  >
-                    {concept.title}
-                  </a>
-                ))}
+                {subtopic.concepts.map((concept) => {
+                  const isActive = activeConceptId === concept.id;
+
+                  return (
+                    <a
+                      key={concept.id}
+                      className={classNames(
+                        "focus-ring group relative overflow-hidden rounded-md px-3 py-2 text-sm transition-colors duration-200 lg:rounded-none lg:pl-11 lg:pr-6",
+                        isActive
+                          ? "bg-circuit-300/10 text-circuit-300"
+                          : "text-chalk-200/75 hover:bg-white/5 hover:text-chalk-100",
+                      )}
+                      href={getConceptHref(topic, subtopic, concept)}
+                    >
+                      <span
+                        className={classNames(
+                          "block transition-transform duration-200 ease-out",
+                          isActive ? "translate-x-1.5" : "group-hover:translate-x-1.5",
+                        )}
+                      >
+                        {concept.title}
+                      </span>
+                    </a>
+                  );
+                })}
               </div>
             </section>
           ))}
