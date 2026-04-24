@@ -47,10 +47,13 @@ export function TutorialSidebar({ topic, activeConceptId }: TutorialSidebarProps
             )}
           >
             {topic.subtopics.map((subtopic) => (
-              <section key={subtopic.slug} className="pt-2 first:pt-0">
-                <h3 className="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-chalk-400/60">
-                  {subtopic.title}
-                </h3>
+              <section key={subtopic.slug} className="px-1 pt-2 first:pt-0 lg:px-0">
+                <div className="flex items-center gap-2">
+                  <h3 className="min-w-0 shrink whitespace-nowrap text-[0.58rem] font-semibold uppercase tracking-[0.1em] text-chalk-400/60 lg:text-[0.62rem] lg:tracking-[0.14em]">
+                    {subtopic.title}
+                  </h3>
+                  <span className="h-px flex-1 bg-white/10" aria-hidden="true" />
+                </div>
                 <div className="mt-2 grid gap-1 pl-2 lg:-ml-8 lg:-mr-6 lg:pl-0">
                   {subtopic.concepts.map((concept) => {
                     const isActive = activeConceptId === concept.id;
