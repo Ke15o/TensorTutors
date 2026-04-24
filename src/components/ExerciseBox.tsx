@@ -11,7 +11,7 @@ export function ExerciseBox({ exercises }: ExerciseBoxProps) {
 
   return (
     <section className="rounded-lg border border-white/10 bg-ink-900/70 p-5">
-      <h2 className="text-xl font-semibold text-chalk-100">Inline exercises</h2>
+      <h2 className="text-xl font-semibold text-chalk-100">Practice Exercises</h2>
       <div className="mt-4 grid gap-4">
         {exercises.map((exercise, index) => (
           <div key={exercise.prompt} className="rounded-md border border-white/10 bg-ink-950/70 p-4">
