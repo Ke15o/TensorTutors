@@ -19,12 +19,12 @@ export function TutorialSidebar({ topic, activeConceptId }: TutorialSidebarProps
           {topic.subtopics.map((subtopic) => (
             <section key={subtopic.slug}>
               <h3 className="px-2 text-xs font-semibold uppercase text-chalk-400">{subtopic.title}</h3>
-              <div className="mt-2 grid gap-1">
+              <div className="mt-2 grid gap-1 lg:-ml-8 lg:-mr-6">
                 {subtopic.concepts.map((concept) => (
                   <a
                     key={concept.id}
                     className={classNames(
-                      "focus-ring rounded-md px-3 py-2 text-sm transition",
+                      "focus-ring rounded-md px-3 py-2 text-sm transition lg:rounded-none lg:px-8 lg:pr-6",
                       activeConceptId === concept.id
                         ? "bg-circuit-300/10 text-circuit-300"
                         : "text-chalk-200/75 hover:bg-white/5 hover:text-chalk-100",
