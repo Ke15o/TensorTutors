@@ -18,7 +18,7 @@ export function TutorialSidebar({ topic, activeConceptId }: TutorialSidebarProps
         <nav className="mt-5 grid gap-5" aria-label={`${topic.title} concepts`}>
           {topic.subtopics.map((subtopic) => (
             <section key={subtopic.slug}>
-              <h3 className="px-2 text-xs font-semibold uppercase text-chalk-400">{subtopic.title}</h3>
+              <h3 className="px-2 text-center text-xs font-semibold uppercase text-chalk-400">{subtopic.title}</h3>
               <div className="mt-2 grid gap-1 lg:-ml-8 lg:-mr-6">
                 {subtopic.concepts.map((concept) => (
                   <a
