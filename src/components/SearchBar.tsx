@@ -14,7 +14,7 @@ export function SearchBar({ value, onChange, results }: SearchBarProps) {
       </label>
       <input
         id="site-search"
-        className="focus-ring w-full rounded-lg border border-white/10 bg-ink-900 px-5 py-4 text-base text-chalk-100 shadow-line placeholder:text-chalk-400"
+        className="focus-ring w-full rounded-lg border border-white/10 bg-ink-900 px-4 py-3 text-sm text-chalk-100 shadow-line placeholder:text-chalk-400 sm:px-5 sm:py-4 sm:text-base"
         onChange={(event) => onChange(event.target.value)}
         placeholder="Search topics, subtopics, or concepts..."
         type="search"
@@ -24,7 +24,7 @@ export function SearchBar({ value, onChange, results }: SearchBarProps) {
       {results.length > 0 ? (
         <div className="mt-3 overflow-hidden rounded-lg border border-white/10 bg-ink-900 text-left shadow-line">
           {results.map((result) => (
-            <a key={`${result.href}-${result.title}`} className="focus-ring block border-b border-white/10 p-4 last:border-b-0 hover:bg-white/[0.03]" href={result.href}>
+            <a key={`${result.href}-${result.title}`} className="focus-ring block border-b border-white/10 p-3 last:border-b-0 hover:bg-white/[0.03] sm:p-4" href={result.href}>
               <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
                 <span className="font-semibold text-chalk-100">{result.title}</span>
                 <span className="text-xs uppercase text-circuit-300">{result.subtitle}</span>
