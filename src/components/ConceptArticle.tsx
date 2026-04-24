@@ -2,7 +2,7 @@ import { CodeBlock } from "./CodeBlock";
 import { ExerciseBox } from "./ExerciseBox";
 import { InfoBox } from "./InfoBox";
 import { PrevNextNav } from "./PrevNextNav";
-import { getAdjacentConcepts } from "../data/topics";
+import { getAdjacentConcepts } from "../lib/learning";
 import type { ConceptLocation } from "../types/topic";
 
 type ConceptArticleProps = {
