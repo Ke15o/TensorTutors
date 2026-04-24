@@ -9,8 +9,8 @@ type TutorialSidebarProps = {
 
 export function TutorialSidebar({ topic, activeConceptId }: TutorialSidebarProps) {
   return (
-    <aside className="lg:sticky lg:top-20 lg:max-h-[calc(100vh-6rem)] lg:overflow-y-auto">
-      <div className="rounded-lg border border-white/10 bg-ink-900/70 p-4 shadow-line">
+    <aside className="border-b border-white/10 bg-ink-900/70 lg:sticky lg:top-0 lg:h-screen lg:overflow-y-auto lg:border-b-0 lg:border-r">
+      <div className="px-5 py-6 sm:px-6 lg:py-10 lg:pl-8 lg:pr-6">
         <a className="focus-ring text-xs font-semibold uppercase text-circuit-300" href="/tutorials">
           Tutorials
         </a>
