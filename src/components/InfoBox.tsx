@@ -12,12 +12,12 @@ export function InfoBox({ title, children, variant = "note" }: InfoBoxProps) {
       className={classNames(
         "rounded-lg border p-4 text-sm leading-6",
         variant === "warning"
-          ? "border-theorem-300/30 bg-theorem-300/10 text-chalk-100"
-          : "border-circuit-300/30 bg-circuit-300/10 text-chalk-100",
+          ? "border-theorem-300/[0.18] bg-theorem-300/[0.035] text-chalk-200/80"
+          : "border-circuit-300/[0.18] bg-circuit-300/[0.035] text-chalk-200/80",
       )}
     >
-      <p className="font-semibold text-chalk-100">{title}</p>
-      <p className="mt-2 text-chalk-200/80">{children}</p>
+      <p className="font-semibold text-chalk-100/90">{title}</p>
+      <p className="mt-2 text-chalk-200/70">{children}</p>
     </aside>
   );
 }

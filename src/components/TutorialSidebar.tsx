@@ -47,9 +47,11 @@ export function TutorialSidebar({ topic, activeConceptId }: TutorialSidebarProps
             )}
           >
             {topic.subtopics.map((subtopic) => (
-              <section key={subtopic.slug}>
-                <h3 className="text-xs font-semibold uppercase text-chalk-400">{subtopic.title}</h3>
-                <div className="mt-2 grid gap-1 lg:-ml-8 lg:-mr-6">
+              <section key={subtopic.slug} className="pt-2 first:pt-0">
+                <h3 className="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-chalk-400/60">
+                  {subtopic.title}
+                </h3>
+                <div className="mt-2 grid gap-1 pl-2 lg:-ml-8 lg:-mr-6 lg:pl-0">
                   {subtopic.concepts.map((concept) => {
                     const isActive = activeConceptId === concept.id;
 
@@ -57,10 +59,10 @@ export function TutorialSidebar({ topic, activeConceptId }: TutorialSidebarProps
                       <a
                         key={concept.id}
                         className={classNames(
-                          "focus-ring group relative overflow-hidden rounded-md px-3 py-2 text-sm transition-colors duration-200 lg:rounded-none lg:pl-11 lg:pr-6",
+                          "focus-ring group relative overflow-hidden rounded-md border-l px-3 py-2 text-sm transition-colors duration-200 lg:rounded-none lg:pl-11 lg:pr-6",
                           isActive
-                            ? "bg-circuit-300/10 text-circuit-300"
-                            : "text-chalk-200/75 hover:bg-white/5 hover:text-chalk-100",
+                            ? "border-circuit-300/50 bg-circuit-300/[0.09] text-circuit-300"
+                            : "border-transparent text-chalk-200/70 hover:border-circuit-300/40 hover:bg-circuit-300/[0.045] hover:text-chalk-100",
                         )}
                         href={getConceptHref(topic, subtopic, concept)}
                         onClick={() => setIsExpanded(false)}
