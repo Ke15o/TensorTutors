@@ -1,406 +1,442 @@
-import type { Pathway, PathwayId, Topic, TopicLevel } from "../types/topic";
+import type { ExerciseSet, ReferenceItem, Subtopic, TutorialCategory } from "../types/topic";
 
-export const pathways: Pathway[] = [
+const placeholderSections = (title: string, summary: string) => [
   {
-    id: "gcse",
-    label: "GCSE",
-    level: "GCSE",
-    title: "GCSE Computer Science",
-    summary: "A clear route through systems, data, networks, security, and exam-ready terminology.",
-  },
-  {
-    id: "alevel",
-    label: "A-Level",
-    level: "A-Level",
-    title: "A-Level Computer Science",
-    summary: "A deeper pathway for algorithms, data structures, paradigms, complexity, and theory.",
-  },
-  {
-    id: "core",
-    label: "Core",
-    level: "Core",
-    title: "Core Computer Science",
-    summary: "Shared foundations for programming, problem solving, maths, and software thinking.",
+    id: "overview",
+    title: `What is ${title}?`,
+    blocks: [
+      {
+        type: "paragraph" as const,
+        text: summary,
+      },
+      {
+        type: "info" as const,
+        variant: "note" as const,
+        title: "Reference page in progress",
+        body: "This topic is part of the reference structure. Full worked examples and practice questions can be added here without changing the routing or layout.",
+      },
+    ],
   },
 ];
 
-export const topics: Topic[] = [
+export const categories: TutorialCategory[] = [
   {
-    id: "computational-thinking",
-    title: "Computational Thinking",
-    area: "Foundations",
-    level: "Core",
-    order: 1,
-    summary: "Decomposition, abstraction, pattern recognition, algorithms, and logical problem solving.",
-    objectives: ["Break down problems", "Spot reusable patterns", "Describe algorithmic steps clearly"],
-    status: "ready",
-    lesson: {
-      explanation:
-        "Computational thinking is the habit of turning messy problems into precise steps a computer or person can follow.",
-      workedExample:
-        "For a bus timetable app, decompose the problem into stops, routes, times, delays, and user queries before writing code.",
-      commonMistakes: ["Starting with syntax before the problem is understood", "Keeping irrelevant details instead of abstracting them"],
-      nextSteps: ["Practise writing pseudocode", "Move into programming fundamentals"],
-    },
+    slug: "programming",
+    title: "Programming",
+    description: "Core programming ideas, Python syntax, control flow, functions, and debugging habits.",
+    subtopics: [
+      {
+        slug: "programming-fundamentals",
+        title: "Programming Fundamentals",
+        summary: "Variables, sequence, selection, iteration, functions, and trace tables.",
+        sections: placeholderSections(
+          "programming fundamentals",
+          "Programming fundamentals are the small set of ideas that appear in almost every program.",
+        ),
+      },
+      {
+        slug: "python-basics",
+        title: "Python Basics",
+        summary: "Data types, expressions, conditions, loops, functions, and files in Python.",
+        sections: placeholderSections("Python basics", "Python is a readable language for expressing algorithms precisely."),
+      },
+      {
+        slug: "debugging",
+        title: "Debugging",
+        summary: "Strategies for finding syntax, runtime, and logic errors.",
+        sections: placeholderSections("debugging", "Debugging is the process of locating and fixing incorrect program behaviour."),
+      },
+    ],
   },
   {
-    id: "programming-fundamentals",
-    title: "Programming Fundamentals",
-    area: "Programming",
-    level: "Core",
-    order: 2,
-    summary: "Variables, selection, iteration, functions, and trace tables.",
-    objectives: ["Read short programs", "Predict output", "Write precise pseudocode"],
-    status: "ready",
-    lesson: {
-      explanation:
-        "Programming fundamentals are the small set of ideas that appear in almost every program: storing values, making decisions, repeating steps, and grouping logic.",
-      workedExample:
-        "A grade calculator stores a mark, uses selection to choose a grade boundary, and repeats the process for each student.",
-      commonMistakes: ["Confusing assignment with comparison", "Changing loop variables in a way that prevents the loop ending"],
-      nextSteps: ["Trace short programs", "Write functions with clear inputs and outputs"],
-    },
-  },
-  {
-    id: "python",
-    title: "Python",
-    area: "Programming",
-    level: "Core",
-    order: 3,
-    summary: "Core syntax, data types, control flow, functions, and file handling.",
-    objectives: ["Use Python syntax accurately", "Structure small programs", "Debug common errors"],
-    status: "ready",
-    lesson: {
-      explanation:
-        "Python is a practical language for expressing algorithms with readable syntax and a small amount of ceremony.",
-      workedExample:
-        "A password checker can use strings, conditions, loops, and functions to validate length, digits, and symbols.",
-      commonMistakes: ["Mixing strings and numbers without conversion", "Relying on indentation that does not match the intended block"],
-      nextSteps: ["Build short command-line programs", "Practise file handling and validation"],
-    },
-  },
-  {
-    id: "maths-for-computer-science",
-    title: "Maths for Computer Science",
-    area: "Foundations",
-    level: "Core",
-    order: 4,
-    summary: "Sets, logic, counting, graphs, functions, and notation used across Computer Science.",
-    objectives: ["Use notation confidently", "Read simple proofs", "Connect maths to algorithms"],
-    status: "planned",
-    lesson: {
-      explanation:
-        "Computer Science maths gives you the language for describing structures, decisions, relationships, and growth.",
-      workedExample:
-        "A social network can be modelled as a graph, where users are vertices and friendships are edges.",
-      commonMistakes: ["Treating notation as decoration", "Skipping definitions before using a theorem or rule"],
-      nextSteps: ["Review Boolean logic", "Use graph vocabulary with networking and algorithms"],
-    },
-  },
-  {
-    id: "software-engineering",
-    title: "Software Engineering",
-    area: "Practice",
-    level: "Core",
-    order: 5,
-    summary: "Requirements, modularity, testing, maintainability, and collaboration habits.",
-    objectives: ["Separate concerns", "Write testable code", "Use clear project structure"],
-    status: "planned",
-    lesson: {
-      explanation:
-        "Software engineering is about building programs so they can be understood, tested, changed, and trusted over time.",
-      workedExample:
-        "A quiz app can separate question data, scoring logic, and interface components so each part stays easier to change.",
-      commonMistakes: ["Putting every feature in one file", "Adding dependencies before checking whether simple code is enough"],
-      nextSteps: ["Refactor repeated code", "Write small tests for core logic"],
-    },
-  },
-  {
-    id: "memory-and-storage",
-    title: "Memory and Storage",
-    area: "Systems",
-    level: "GCSE",
-    order: 1,
-    summary: "Primary memory, secondary storage, units, volatility, capacity, and performance trade-offs.",
-    objectives: ["Compare RAM and storage", "Use storage units", "Explain performance choices"],
-    status: "planned",
-    lesson: {
-      explanation:
-        "Memory and storage describe where data lives while a computer is running and where it is kept for later use.",
-      workedExample:
-        "A game uses RAM for active state during play and secondary storage for saved progress after the device powers off.",
-      commonMistakes: ["Calling all storage memory", "Forgetting that RAM is volatile"],
-      nextSteps: ["Revise data representation", "Connect storage choices to system performance"],
-    },
-  },
-  {
-    id: "data-representation",
-    title: "Data Representation",
-    area: "Systems",
-    level: "GCSE",
-    order: 2,
-    summary: "Binary, hexadecimal, characters, images, sound, compression, and units.",
-    objectives: ["Convert number bases", "Calculate storage needs", "Explain encoding choices"],
-    status: "ready",
-    lesson: {
-      explanation:
-        "Data representation is how computers encode numbers, text, images, and sound using binary patterns.",
-      workedExample:
-        "The decimal number 13 can be represented as 1101 in binary, which is also D in hexadecimal.",
-      commonMistakes: ["Mixing up bits and bytes", "Forgetting that metadata can affect file size"],
-      nextSteps: ["Practise base conversion", "Compare lossy and lossless compression"],
-    },
-  },
-  {
-    id: "boolean-logic",
-    title: "Boolean Logic",
-    area: "Theory",
-    level: "GCSE",
-    order: 3,
-    summary: "Logic gates, truth tables, Boolean expressions, and circuit simplification.",
-    objectives: ["Build truth tables", "Read logic diagrams", "Simplify simple expressions"],
-    status: "ready",
-    lesson: {
-      explanation:
-        "Boolean logic uses true and false values to model decisions, expressions, and digital circuits.",
-      workedExample:
-        "A door alarm might sound when the door is open AND the alarm is armed.",
-      commonMistakes: ["Reading OR as exclusive when the exam means inclusive OR", "Missing every row in a truth table"],
-      nextSteps: ["Build truth tables", "Connect logic gates to circuits"],
-    },
-  },
-  {
-    id: "computer-architecture",
-    title: "Computer Architecture",
-    area: "Systems",
-    level: "GCSE",
-    order: 4,
-    summary: "CPU components, registers, buses, the fetch-execute cycle, and instruction flow.",
-    objectives: ["Label CPU parts", "Explain instruction cycles", "Connect hardware to program execution"],
-    status: "planned",
-    lesson: {
-      explanation:
-        "Computer architecture explains how the CPU, memory, registers, buses, and instructions work together to run programs.",
-      workedExample:
-        "During the fetch-execute cycle, the CPU fetches an instruction from memory, decodes it, then executes the operation.",
-      commonMistakes: ["Confusing the program counter with the accumulator", "Skipping the decode stage"],
-      nextSteps: ["Trace a fetch-execute cycle", "Review memory and storage"],
-    },
-  },
-  {
-    id: "operating-systems",
-    title: "Operating Systems",
-    area: "Systems",
-    level: "GCSE",
-    order: 5,
-    summary: "Process management, memory management, files, users, security, and utility software.",
-    objectives: ["Describe OS responsibilities", "Compare utilities", "Explain resource management"],
-    status: "planned",
-    lesson: {
-      explanation:
-        "An operating system manages hardware and software resources so users and applications can work reliably.",
-      workedExample:
-        "When two apps run at once, the OS schedules CPU time and allocates memory so each process can continue.",
-      commonMistakes: ["Calling every application an operating system", "Forgetting security and file management roles"],
-      nextSteps: ["Link processes to CPU scheduling", "Review memory management"],
-    },
-  },
-  {
-    id: "networking",
-    title: "Networking",
-    area: "Systems",
-    level: "GCSE",
-    order: 6,
-    summary: "Protocols, packet switching, network topologies, layers, and security basics.",
-    objectives: ["Explain packet journeys", "Compare topologies", "Use protocol vocabulary"],
-    status: "planned",
-    lesson: {
-      explanation:
-        "Networking is how computers exchange data using agreed rules, addressing, hardware, and layered protocols.",
-      workedExample:
-        "Loading a website uses DNS to find an address, TCP/IP to move packets, and HTTP to request the page.",
-      commonMistakes: ["Confusing the internet with the web", "Treating packets as if they always travel one fixed route"],
-      nextSteps: ["Trace a packet journey", "Compare LANs and WANs"],
-    },
-  },
-  {
-    id: "cybersecurity",
-    title: "Cybersecurity",
-    area: "Systems",
-    level: "GCSE",
-    order: 7,
-    summary: "Threats, vulnerabilities, malware, social engineering, prevention, and defensive habits.",
-    objectives: ["Identify common threats", "Explain prevention methods", "Use security vocabulary precisely"],
-    status: "planned",
-    lesson: {
-      explanation:
-        "Cybersecurity protects systems, networks, and data from damage, theft, disruption, and unauthorised access.",
-      workedExample:
-        "Phishing attacks trick users into entering credentials on a fake site; training and multi-factor authentication reduce the risk.",
-      commonMistakes: ["Treating passwords as the only defence", "Mixing up malware categories"],
-      nextSteps: ["Compare technical and human threats", "Revise authentication methods"],
-    },
-  },
-  {
-    id: "databases",
-    title: "Databases",
-    area: "Data",
-    level: "GCSE",
-    order: 8,
-    summary: "Tables, records, fields, keys, relationships, validation, and simple queries.",
-    objectives: ["Model tabular data", "Identify keys", "Explain validation and queries"],
-    status: "planned",
-    lesson: {
-      explanation:
-        "A database stores organised data so it can be searched, updated, related, and protected more reliably than a flat file.",
-      workedExample:
-        "A school database can store students, classes, and teachers in related tables connected by keys.",
-      commonMistakes: ["Confusing a field with a record", "Using duplicate values as primary keys"],
-      nextSteps: ["Design a small table", "Practise simple query logic"],
-    },
-  },
-  {
-    id: "algorithms",
-    title: "Algorithms",
-    area: "Algorithms",
-    level: "A-Level",
-    order: 1,
-    summary: "Searching, sorting, recursion, graph traversal, and algorithm design.",
-    objectives: ["Trace standard algorithms", "Explain trade-offs", "Design step-by-step solutions"],
-    status: "planned",
-    lesson: {
-      explanation:
-        "Algorithms are precise procedures for solving problems, and A-Level work focuses on tracing, comparing, and designing them.",
-      workedExample:
-        "Binary search repeatedly halves a sorted list until it finds the target or proves the target is absent.",
-      commonMistakes: ["Using binary search on unsorted data", "Forgetting base cases in recursive algorithms"],
-      nextSteps: ["Trace sorting algorithms", "Compare iterative and recursive solutions"],
-    },
-  },
-  {
-    id: "data-structures",
+    slug: "data-structures",
     title: "Data Structures",
-    area: "Algorithms",
-    level: "A-Level",
-    order: 2,
-    summary: "Arrays, records, stacks, queues, linked lists, trees, and graphs.",
-    objectives: ["Compare structures", "Trace operations", "Choose suitable storage"],
-    status: "planned",
-    lesson: {
-      explanation:
-        "Data structures organise data so operations like insertion, deletion, traversal, and lookup fit the problem.",
-      workedExample:
-        "A queue is suitable for print jobs because the first job added should usually be the first job processed.",
-      commonMistakes: ["Choosing structures by familiarity instead of operation cost", "Mixing up stack and queue order"],
-      nextSteps: ["Trace stack and queue operations", "Compare trees and graphs"],
-    },
+    description: "Ways to organise data so operations such as access, insertion, deletion, and traversal are efficient.",
+    subtopics: [
+      {
+        slug: "arrays",
+        title: "Arrays",
+        summary: "Indexed, contiguous collections with fast access and fixed-size trade-offs.",
+        sections: placeholderSections("arrays", "An array stores values in indexed positions, usually in contiguous memory."),
+      },
+      {
+        slug: "linked-lists",
+        title: "Linked Lists",
+        summary: "A sequence of nodes where each node stores data and one or more links to other nodes.",
+        sections: [
+          {
+            id: "what-is-a-linked-list",
+            title: "What is a linked list?",
+            blocks: [
+              {
+                type: "paragraph",
+                text: "A linked list is a linear data structure made from nodes. Each node stores a value and a reference to the next node in the sequence. Unlike an array, the nodes do not need to sit next to each other in memory.",
+              },
+              {
+                type: "paragraph",
+                text: "Linked lists are useful when you need frequent insertion and deletion near known positions, or when the collection size changes often. They are less useful when you need constant-time indexed access.",
+              },
+              {
+                type: "info",
+                variant: "note",
+                title: "Key idea",
+                body: "A linked list trades direct indexing for flexible links between nodes.",
+              },
+            ],
+          },
+          {
+            id: "nodes-and-pointers",
+            title: "Nodes and pointers",
+            blocks: [
+              {
+                type: "paragraph",
+                text: "A node is the basic building block of a linked list. In a singly linked list, each node has data and a pointer to the next node. The first node is called the head.",
+              },
+              {
+                type: "code",
+                language: "ts",
+                code: `type ListNode<T> = {\n  value: T;\n  next: ListNode<T> | null;\n};\n\nconst head: ListNode<number> = {\n  value: 10,\n  next: {\n    value: 20,\n    next: null,\n  },\n};`,
+              },
+            ],
+          },
+          {
+            id: "singly-vs-doubly",
+            title: "Singly vs doubly linked lists",
+            blocks: [
+              {
+                type: "paragraph",
+                text: "A singly linked list only points forward. A doubly linked list points forward and backward, which makes reverse traversal easier but uses extra memory per node.",
+              },
+              {
+                type: "table",
+                columns: ["Type", "Links per node", "Strength", "Trade-off"],
+                rows: [
+                  ["Singly linked list", "next", "Simple and memory efficient", "Cannot move backward from a node"],
+                  ["Doubly linked list", "previous and next", "Can traverse both directions", "Uses more memory and more pointer updates"],
+                ],
+              },
+            ],
+          },
+          {
+            id: "traversal",
+            title: "Traversal",
+            blocks: [
+              {
+                type: "paragraph",
+                text: "Traversal means visiting nodes one at a time, starting at the head and following links until the current node is null.",
+              },
+              {
+                type: "code",
+                language: "ts",
+                code: `function printList<T>(head: ListNode<T> | null) {\n  let current = head;\n\n  while (current !== null) {\n    console.log(current.value);\n    current = current.next;\n  }\n}`,
+              },
+            ],
+          },
+          {
+            id: "insertion",
+            title: "Insertion",
+            blocks: [
+              {
+                type: "paragraph",
+                text: "Insertion changes links so a new node becomes part of the chain. Inserting at the head is usually constant time because only the new node and head reference need updating.",
+              },
+              {
+                type: "code",
+                language: "ts",
+                code: `function insertAtHead<T>(head: ListNode<T> | null, value: T): ListNode<T> {\n  return {\n    value,\n    next: head,\n  };\n}`,
+              },
+              {
+                type: "info",
+                variant: "warning",
+                title: "Pointer order matters",
+                body: "When inserting in the middle, connect the new node to the next node before redirecting the previous node. Otherwise part of the list can become unreachable.",
+              },
+            ],
+          },
+          {
+            id: "deletion",
+            title: "Deletion",
+            blocks: [
+              {
+                type: "paragraph",
+                text: "Deletion removes a node by changing the previous node's link so it skips over the deleted node. If the head is deleted, the head reference must move to the next node.",
+              },
+              {
+                type: "code",
+                language: "ts",
+                code: `function deleteHead<T>(head: ListNode<T> | null): ListNode<T> | null {\n  if (head === null) {\n    return null;\n  }\n\n  return head.next;\n}`,
+              },
+            ],
+          },
+          {
+            id: "time-complexity",
+            title: "Time complexity",
+            blocks: [
+              {
+                type: "table",
+                columns: ["Operation", "Singly linked list", "Reason"],
+                rows: [
+                  ["Access by index", "O(n)", "You may need to traverse from the head"],
+                  ["Search", "O(n)", "Each node may need checking"],
+                  ["Insert at head", "O(1)", "Only the head link changes"],
+                  ["Delete after known node", "O(1)", "Only local links change"],
+                  ["Insert at end", "O(n)", "Unless a tail pointer is stored"],
+                ],
+              },
+            ],
+          },
+          {
+            id: "linked-lists-vs-arrays",
+            title: "Linked lists vs arrays",
+            blocks: [
+              {
+                type: "table",
+                columns: ["Question", "Array", "Linked list"],
+                rows: [
+                  ["Fast indexed access?", "Yes, O(1)", "No, usually O(n)"],
+                  ["Cheap insertion at front?", "Usually no", "Yes, O(1)"],
+                  ["Memory overhead?", "Low", "Higher because links are stored"],
+                  ["Cache-friendly?", "Usually yes", "Usually less cache-friendly"],
+                ],
+              },
+              {
+                type: "info",
+                variant: "note",
+                title: "Exam phrasing",
+                body: "Do not say linked lists are always faster. Say which operation is faster and why.",
+              },
+            ],
+          },
+          {
+            id: "common-mistakes",
+            title: "Common mistakes",
+            blocks: [
+              {
+                type: "list",
+                items: [
+                  "Assuming linked lists support direct indexing like arrays.",
+                  "Losing the rest of the list by overwriting a pointer too early.",
+                  "Forgetting to handle an empty list.",
+                  "Forgetting to update both directions in a doubly linked list.",
+                ],
+              },
+            ],
+          },
+          {
+            id: "practice-questions",
+            title: "Short practice questions",
+            blocks: [
+              {
+                type: "list",
+                items: [
+                  "Why is inserting at the head of a linked list O(1)?",
+                  "What extra pointer does a doubly linked list store?",
+                  "When would an array be a better choice than a linked list?",
+                  "Write pseudocode to count the number of nodes in a singly linked list.",
+                ],
+              },
+            ],
+          },
+        ],
+      },
+      {
+        slug: "stacks",
+        title: "Stacks",
+        summary: "Last-in, first-out collections used for calls, undo, and parsing.",
+        sections: placeholderSections("stacks", "A stack stores items so the most recently added item is removed first."),
+      },
+      {
+        slug: "queues",
+        title: "Queues",
+        summary: "First-in, first-out collections used for scheduling and buffering.",
+        sections: placeholderSections("queues", "A queue stores items so the earliest added item is removed first."),
+      },
+    ],
   },
   {
-    id: "complexity-big-o",
-    title: "Complexity and Big O",
-    area: "Theory",
-    level: "A-Level",
-    order: 3,
-    summary: "Time complexity, space complexity, growth rates, and practical comparisons.",
-    objectives: ["Classify growth rates", "Estimate running time", "Compare algorithm efficiency"],
-    status: "planned",
-    lesson: {
-      explanation:
-        "Big O describes how an algorithm's resource use grows as input size increases, ignoring machine-specific details.",
-      workedExample:
-        "A loop over every item in a list is O(n), while checking every pair of items is often O(n^2).",
-      commonMistakes: ["Treating Big O as exact running time", "Ignoring the dominant term for large inputs"],
-      nextSteps: ["Estimate loops from pseudocode", "Compare search and sort complexities"],
-    },
+    slug: "algorithms",
+    title: "Algorithms",
+    description: "Searching, sorting, recursion, graph traversal, complexity, and algorithmic problem solving.",
+    subtopics: [
+      {
+        slug: "binary-search",
+        title: "Binary Search",
+        summary: "A divide-and-conquer search algorithm for sorted data.",
+        sections: placeholderSections("binary search", "Binary search repeatedly halves a sorted search space."),
+      },
+      {
+        slug: "sorting",
+        title: "Sorting Algorithms",
+        summary: "How common sorting methods rearrange data and compare in efficiency.",
+        sections: placeholderSections("sorting algorithms", "Sorting algorithms arrange data into a defined order."),
+      },
+      {
+        slug: "big-o",
+        title: "Big O",
+        summary: "A way to describe how resource use grows with input size.",
+        sections: placeholderSections("Big O", "Big O describes growth rates rather than exact running times."),
+      },
+    ],
   },
   {
-    id: "object-oriented-programming",
-    title: "Object-Oriented Programming",
-    area: "Programming",
-    level: "A-Level",
-    order: 4,
-    summary: "Classes, objects, encapsulation, inheritance, polymorphism, and modelling trade-offs.",
-    objectives: ["Model entities as classes", "Explain encapsulation", "Compare inheritance and composition"],
-    status: "planned",
-    lesson: {
-      explanation:
-        "Object-oriented programming groups data and behaviour into objects so larger programs can model related responsibilities.",
-      workedExample:
-        "A card game might model Deck, Card, and Player classes, with methods for shuffling, drawing, and scoring.",
-      commonMistakes: ["Making every variable public", "Using inheritance where a simple field or helper would be clearer"],
-      nextSteps: ["Sketch class diagrams", "Implement small classes in Python"],
-    },
+    slug: "computer-systems",
+    title: "Computer Systems",
+    description: "CPU architecture, memory, storage, operating systems, binary, and data representation.",
+    subtopics: [
+      {
+        slug: "cpu-architecture",
+        title: "CPU Architecture",
+        summary: "Registers, buses, instruction cycles, and the components that execute programs.",
+        sections: placeholderSections("CPU architecture", "CPU architecture explains how instructions are fetched, decoded, and executed."),
+      },
+      {
+        slug: "data-representation",
+        title: "Data Representation",
+        summary: "Binary, hexadecimal, characters, images, sound, compression, and units.",
+        sections: placeholderSections("data representation", "Data representation is how computers encode information using bits."),
+      },
+      {
+        slug: "operating-systems",
+        title: "Operating Systems",
+        summary: "Resource management, processes, files, users, and utilities.",
+        sections: placeholderSections("operating systems", "An operating system manages hardware and software resources."),
+      },
+    ],
   },
   {
-    id: "functional-programming",
-    title: "Functional Programming",
-    area: "Programming",
-    level: "A-Level",
-    order: 5,
-    summary: "Pure functions, immutability, recursion, higher-order functions, and declarative thinking.",
-    objectives: ["Identify pure functions", "Use recursion safely", "Explain immutability benefits"],
-    status: "planned",
-    lesson: {
-      explanation:
-        "Functional programming emphasises expressions, pure functions, and data transformations over changing shared state.",
-      workedExample:
-        "Mapping a list of marks to grades applies the same function to each value without mutating the original list.",
-      commonMistakes: ["Calling any function functional programming", "Forgetting recursive base cases"],
-      nextSteps: ["Practise map/filter/reduce", "Compare functional and object-oriented styles"],
-    },
+    slug: "databases",
+    title: "Databases",
+    description: "Tables, relationships, keys, queries, normalisation, and database design.",
+    subtopics: [
+      {
+        slug: "relational-databases",
+        title: "Relational Databases",
+        summary: "Tables, records, fields, relationships, and constraints.",
+        sections: placeholderSections("relational databases", "Relational databases store data in tables connected by keys."),
+      },
+      {
+        slug: "sql-basics",
+        title: "SQL Basics",
+        summary: "Selecting, filtering, ordering, inserting, and updating records.",
+        sections: placeholderSections("SQL basics", "SQL is a language for querying and changing relational data."),
+      },
+    ],
   },
   {
-    id: "theory-of-computation",
-    title: "Theory of Computation",
-    area: "Theory",
-    level: "A-Level",
-    order: 6,
-    summary: "Finite automata, grammars, computability, decidability, and formal languages.",
-    objectives: ["Model simple machines", "Reason about languages", "Separate solvable from unsolvable"],
-    status: "planned",
-    lesson: {
-      explanation:
-        "Theory of computation studies what machines can compute, how languages can be recognised, and where limits appear.",
-      workedExample:
-        "A finite automaton can recognise strings that contain an even number of 1s by switching between two states.",
-      commonMistakes: ["Adding memory to a finite automaton", "Confusing a language with a programming language"],
-      nextSteps: ["Draw simple automata", "Review grammars and regular expressions"],
-    },
+    slug: "networking",
+    title: "Networking",
+    description: "Protocols, packet switching, addressing, topologies, layers, and the web.",
+    subtopics: [
+      {
+        slug: "network-models",
+        title: "Network Models",
+        summary: "Layered models for organising protocols and communication responsibilities.",
+        sections: placeholderSections("network models", "Network models group communication tasks into layers."),
+      },
+      {
+        slug: "packet-switching",
+        title: "Packet Switching",
+        summary: "How messages are split, routed, and reassembled across networks.",
+        sections: placeholderSections("packet switching", "Packet switching sends data in small chunks that can travel independently."),
+      },
+    ],
   },
   {
-    id: "artificial-intelligence",
-    title: "Artificial Intelligence",
-    area: "Theory",
-    level: "A-Level",
-    order: 7,
-    summary: "Search, heuristics, machine learning ideas, knowledge representation, and evaluation.",
-    objectives: ["Explain search spaces", "Use heuristic vocabulary", "Compare rule-based and learned systems"],
-    status: "planned",
-    lesson: {
-      explanation:
-        "Artificial intelligence studies systems that perform tasks associated with reasoning, search, learning, and decision making.",
-      workedExample:
-        "A route-finding system can use a heuristic to estimate which path is likely to reach the destination efficiently.",
-      commonMistakes: ["Treating all AI as machine learning", "Ignoring how training data affects outcomes"],
-      nextSteps: ["Compare search strategies", "Review data and model evaluation"],
-    },
+    slug: "cybersecurity",
+    title: "Cybersecurity",
+    description: "Threats, vulnerabilities, malware, authentication, encryption, and defensive habits.",
+    subtopics: [
+      {
+        slug: "malware",
+        title: "Malware",
+        summary: "Viruses, worms, trojans, ransomware, spyware, and prevention.",
+        sections: placeholderSections("malware", "Malware is software designed to damage, disrupt, or gain unauthorised access."),
+      },
+      {
+        slug: "authentication",
+        title: "Authentication",
+        summary: "How systems check identity using passwords, MFA, biometrics, and tokens.",
+        sections: placeholderSections("authentication", "Authentication is the process of verifying identity."),
+      },
+    ],
+  },
+  {
+    slug: "maths-for-cs",
+    title: "Maths for CS",
+    description: "Logic, sets, graphs, counting, functions, proof, and notation used in Computer Science.",
+    subtopics: [
+      {
+        slug: "boolean-logic",
+        title: "Boolean Logic",
+        summary: "Truth values, operators, truth tables, expressions, and logic gates.",
+        sections: placeholderSections("Boolean logic", "Boolean logic uses true and false values to reason about conditions."),
+      },
+      {
+        slug: "graphs",
+        title: "Graphs",
+        summary: "Vertices, edges, paths, cycles, weights, and graph traversal.",
+        sections: placeholderSections("graphs", "Graphs model relationships between objects."),
+      },
+    ],
   },
 ];
 
-export function getPathwayById(pathwayId: string): Pathway | undefined {
-  return pathways.find((pathway) => pathway.id === pathwayId);
+export const references: ReferenceItem[] = [
+  {
+    title: "Time Complexity",
+    category: "Algorithms",
+    summary: "Common Big O classes and how to compare algorithm growth.",
+    href: "/tutorials/algorithms/big-o",
+  },
+  {
+    title: "Linked List Operations",
+    category: "Data Structures",
+    summary: "Traversal, insertion, deletion, and complexity at a glance.",
+    href: "/tutorials/data-structures/linked-lists",
+  },
+  {
+    title: "Boolean Operators",
+    category: "Maths for CS",
+    summary: "AND, OR, NOT, XOR, truth tables, and common exam wording.",
+    href: "/tutorials/maths-for-cs/boolean-logic",
+  },
+];
+
+export const exercises: ExerciseSet[] = [
+  {
+    title: "Linked List Trace Questions",
+    category: "Data Structures",
+    summary: "Trace pointer changes during insertion and deletion.",
+    href: "/tutorials/data-structures/linked-lists",
+  },
+  {
+    title: "Binary Search Dry Runs",
+    category: "Algorithms",
+    summary: "Follow low, high, and mid values through sorted arrays.",
+    href: "/tutorials/algorithms/binary-search",
+  },
+  {
+    title: "Boolean Logic Tables",
+    category: "Maths for CS",
+    summary: "Complete truth tables and simplify simple expressions.",
+    href: "/tutorials/maths-for-cs/boolean-logic",
+  },
+];
+
+export function getCategoryBySlug(categorySlug: string): TutorialCategory | undefined {
+  return categories.find((category) => category.slug === categorySlug);
 }
 
-export function getTopicsByLevel(level: TopicLevel): Topic[] {
-  return topics.filter((topic) => topic.level === level).sort((a, b) => a.order - b.order);
+export function getTopicBySlug(categorySlug: string, topicSlug: string): Subtopic | undefined {
+  return getCategoryBySlug(categorySlug)?.subtopics.find((topic) => topic.slug === topicSlug);
 }
 
-export function getPathwayTopics(pathwayId: PathwayId): Topic[] {
-  const pathway = getPathwayById(pathwayId);
+export function getAdjacentTopics(categorySlug: string, topicSlug: string) {
+  const category = getCategoryBySlug(categorySlug);
+  const index = category?.subtopics.findIndex((topic) => topic.slug === topicSlug) ?? -1;
 
-  return pathway ? getTopicsByLevel(pathway.level) : [];
-}
-
-export function getTopicForPathway(pathwayId: PathwayId, topicId: string): Topic | undefined {
-  return getPathwayTopics(pathwayId).find((topic) => topic.id === topicId);
+  return {
+    previous: index > 0 ? category?.subtopics[index - 1] : undefined,
+    next: category && index >= 0 && index < category.subtopics.length - 1 ? category.subtopics[index + 1] : undefined,
+  };
 }
