@@ -39,44 +39,7 @@ export function TutorialSidebar({ topic, activeConceptId }: TutorialSidebarProps
           Home
         </a>
         <h2 className="mt-3 text-lg font-semibold text-chalk-100">{topic.title}</h2>
-        <nav className="mt-3 grid gap-3 lg:mt-5 lg:gap-5" aria-label={`${topic.title} concepts`}>
-          {hasMobileOverflow ? (
-            <div
-              className="focus-ring mx-auto flex h-8 w-32 cursor-pointer items-center justify-center text-lg font-semibold leading-none text-chalk-300/70 transition-colors duration-200 hover:text-circuit-300 lg:hidden"
-              role="button"
-              tabIndex={0}
-              aria-expanded={isExpanded}
-              aria-label={isExpanded ? "Collapse topics" : "Expand topics"}
-              onClick={toggleExpanded}
-              onKeyDown={handleToggleKeyDown}
-            >
-              <svg
-                className={classNames(
-                  "h-8 w-24 transition-transform duration-300 ease-out",
-                  isExpanded && "rotate-180",
-                )}
-                viewBox="0 0 64 48"
-                fill="none"
-                aria-hidden="true"
-              >
-                <path
-                  d="M6 27L32 11L58 27"
-                  stroke="currentColor"
-                  strokeWidth="4"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-                <path
-                  d="M6 41L32 25L58 41"
-                  stroke="currentColor"
-                  strokeWidth="4"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </div>
-          ) : null}
-
+        <nav className="mt-2 grid gap-2 lg:mt-5 lg:gap-5" aria-label={`${topic.title} concepts`}>
           <div
             className={classNames(
               "grid gap-5 overflow-hidden opacity-100 transition-[max-height,opacity] duration-300 ease-out lg:max-h-none lg:overflow-visible lg:opacity-100",
@@ -117,6 +80,40 @@ export function TutorialSidebar({ topic, activeConceptId }: TutorialSidebarProps
               </section>
             ))}
           </div>
+
+          {hasMobileOverflow ? (
+            <div
+              className="focus-ring mx-auto flex h-6 w-20 cursor-pointer items-center justify-center text-chalk-300/70 transition-colors duration-200 hover:text-circuit-300 lg:hidden"
+              role="button"
+              tabIndex={0}
+              aria-expanded={isExpanded}
+              aria-label={isExpanded ? "Collapse topics" : "Expand topics"}
+              onClick={toggleExpanded}
+              onKeyDown={handleToggleKeyDown}
+            >
+              <svg
+                className={classNames("h-5 w-14 transition-transform duration-300 ease-out", isExpanded && "rotate-180")}
+                viewBox="0 0 64 48"
+                fill="none"
+                aria-hidden="true"
+              >
+                <path
+                  d="M6 27L32 11L58 27"
+                  stroke="currentColor"
+                  strokeWidth="3.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                <path
+                  d="M6 41L32 25L58 41"
+                  stroke="currentColor"
+                  strokeWidth="3.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </div>
+          ) : null}
         </nav>
       </div>
     </aside>
