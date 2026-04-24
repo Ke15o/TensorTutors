@@ -1,4 +1,5 @@
 import { classNames } from "../utils/classNames";
+import Markdown from "./Markdown";
 
 type InfoBoxProps = {
   title: string;
@@ -17,7 +18,10 @@ export function InfoBox({ title, children, variant = "note" }: InfoBoxProps) {
       )}
     >
       <p className="font-semibold text-chalk-100/90">{title}</p>
-      <p className="mt-2 text-chalk-200/70">{children}</p>
+
+      <div className="mt-2 text-chalk-200/70">
+        <Markdown>{children}</Markdown>
+      </div>
     </aside>
   );
 }
