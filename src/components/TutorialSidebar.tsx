@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, type KeyboardEvent } from "react";
 import { getConceptHref } from "../data/topics";
 import type { MajorTopic } from "../types/topic";
 import { classNames } from "../utils/classNames";
@@ -19,6 +19,15 @@ export function TutorialSidebar({ topic, activeConceptId }: TutorialSidebarProps
   useEffect(() => {
     setIsExpanded(false);
   }, [activeConceptId, topic.id]);
+
+  const toggleExpanded = () => setIsExpanded((current) => !current);
+
+  const handleToggleKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      toggleExpanded();
+    }
+  };
 
   return (
     <aside className="border-b border-white/10 bg-ink-900/70 lg:sticky lg:top-0 lg:h-screen lg:overflow-y-auto lg:border-b-0 lg:border-r">
@@ -70,15 +79,25 @@ export function TutorialSidebar({ topic, activeConceptId }: TutorialSidebarProps
           </div>
 
           {hasMobileOverflow ? (
-            <button
-              className="focus-ring flex items-center justify-between rounded-md border border-white/10 bg-white/[0.03] px-3 py-2 text-sm font-semibold text-chalk-200/80 transition hover:border-circuit-300/40 hover:text-circuit-300 lg:hidden"
-              type="button"
+            <div
+              className="focus-ring mx-auto flex h-8 w-16 cursor-pointer items-center justify-center text-lg font-semibold leading-none text-chalk-300/70 transition-colors duration-200 hover:text-circuit-300 lg:hidden"
+              role="button"
+              tabIndex={0}
               aria-expanded={isExpanded}
-              onClick={() => setIsExpanded((current) => !current)}
+              aria-label={isExpanded ? "Collapse topics" : "Expand topics"}
+              onClick={toggleExpanded}
+              onKeyDown={handleToggleKeyDown}
             >
-              <span>{isExpanded ? "Show fewer topics" : "Show all topics"}</span>
-              <span className={classNames("transition-transform duration-300", isExpanded && "rotate-180")}>v</span>
-            </button>
+              <span
+                className={classNames(
+                  "block transition-transform duration-300 ease-out",
+                  isExpanded ? "rotate-90" : "-rotate-90",
+                )}
+                aria-hidden="true"
+              >
+                &gt;&gt;
+              </span>
+            </div>
           ) : null}
         </nav>
       </div>
