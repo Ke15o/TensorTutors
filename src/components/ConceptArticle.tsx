@@ -1,4 +1,3 @@
-tsx
 import { CodeBlock } from "./CodeBlock";
 import { ExerciseBox } from "./ExerciseBox";
 import { InfoBox } from "./InfoBox";
