@@ -10,7 +10,7 @@ export function SearchBar({ value, onChange, results }: SearchBarProps) {
   return (
     <div className="mx-auto w-full max-w-3xl">
       <label className="sr-only" htmlFor="site-search">
-        Search topics, subtopics, or concepts
+        Search topics
       </label>
 
       <div className="relative">
@@ -30,7 +30,7 @@ export function SearchBar({ value, onChange, results }: SearchBarProps) {
           id="site-search"
           className="w-full rounded-lg border border-white/10 bg-ink-900 py-4 pl-12 pr-5 text-base text-chalk-100 shadow-line outline-none transition placeholder:text-chalk-400 hover:border-white/20 hover:shadow-line focus:border-circuit-300/40 focus:ring-2 focus:ring-circuit-300/10"
           onChange={(event) => onChange(event.target.value)}
-          placeholder="Search topics, subtopics, or concepts..."
+          placeholder="Search topics..."
           type="search"
           value={value}
         />
