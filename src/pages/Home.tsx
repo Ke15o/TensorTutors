@@ -25,14 +25,6 @@ export function Home() {
       <section className="mt-8 w-full text-left sm:mt-12">
         <TopicGrid topics={majorTopics} />
       </section>
-
-      <div className="mt-8 flex flex-wrap justify-center gap-2 text-xs text-chalk-400 sm:mt-10 sm:gap-3 sm:text-sm">
-        <span className="rounded-md border border-white/10 px-3 py-2">Visualisers coming soon</span>
-        <span className="rounded-md border border-white/10 px-3 py-2">Projects coming soon</span>
-        <a className="focus-ring rounded-md border border-white/10 px-3 py-2 transition hover:text-circuit-300" href="/tutorials">
-          Browse all tutorials
-        </a>
-      </div>
     </main>
   );
 }
