@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState, type KeyboardEvent } from "react";
-import { getConceptHref } from "../data/topics";
+import { getConceptHref } from "../lib/learning";
 import type { MajorTopic } from "../types/topic";
 import { classNames } from "../utils/classNames";
 

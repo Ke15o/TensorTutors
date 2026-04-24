@@ -2,7 +2,7 @@ import type { ReactElement } from "react";
 import { Home } from "./pages/Home";
 import { NotFound } from "./pages/NotFound";
 import { TutorialPage } from "./pages/TutorialPage";
-import { getConceptLocation } from "./data/topics";
+import { getConceptLocation } from "./lib/learning";
 
 export type RoutePath = "/";
 

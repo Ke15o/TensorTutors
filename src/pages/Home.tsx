@@ -1,7 +1,8 @@
 import { useMemo, useState } from "react";
 import { SearchBar } from "../components/SearchBar";
 import { TopicGrid } from "../components/TopicGrid";
-import { majorTopics, searchLearningContent } from "../data/topics";
+import { majorTopics } from "../data/topics";
+import { searchLearningContent } from "../lib/learning";
 
 export function Home() {
   const [query, setQuery] = useState("");
