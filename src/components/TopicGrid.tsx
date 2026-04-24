@@ -10,7 +10,7 @@ export function TopicGrid({ topics }: TopicGridProps) {
       {topics.map((topic) => (
         <a
           key={topic.slug}
-          className="focus-ring rounded-lg border border-white/10 bg-ink-900/70 p-3 transition hover:border-circuit-300/40 hover:bg-ink-800 sm:p-4"
+          className="focus-ring rounded-lg border border-white/[0.11] bg-white/[0.025] p-3 transition duration-200 hover:-translate-y-0.5 hover:border-circuit-300/40 hover:bg-ink-900/80 sm:p-4"
           href={`/tutorials/${topic.slug}`}
         >
           <h2 className="text-base font-semibold text-chalk-100 sm:text-lg">{topic.title}</h2>
