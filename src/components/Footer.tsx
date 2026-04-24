@@ -3,7 +3,7 @@ export function Footer() {
     <footer className="border-t border-white/10 bg-ink-950">
       <div className="page-shell flex flex-col gap-3 py-8 text-sm text-chalk-400 sm:flex-row sm:items-center sm:justify-between">
         <p>TensorTutors</p>
-        <p>Computer Science tutorials, references, exercises, and visual explainers.</p>
+        <p>Computer Science revision, explained clearly.</p>
       </div>
     </footer>
   );

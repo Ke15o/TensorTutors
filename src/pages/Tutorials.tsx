@@ -1,37 +1,29 @@
-import { CategoryCard } from "../components/CategoryCard";
-import { SearchBox } from "../components/SearchBox";
-import { categories } from "../data/topics";
+import { useMemo, useState } from "react";
+import { SearchBar } from "../components/SearchBar";
+import { TopicGrid } from "../components/TopicGrid";
+import { majorTopics, searchLearningContent } from "../data/topics";
 
 export function Tutorials() {
-  return (
-    <>
-      <section className="border-b border-white/10 bg-ink-900/60">
-        <div className="page-shell py-12">
-          <p className="text-sm font-semibold uppercase text-circuit-300">Tutorials</p>
-          <h1 className="mt-3 text-4xl font-semibold text-chalk-100">Computer Science tutorials</h1>
-          <p className="mt-4 max-w-2xl text-base leading-7 text-chalk-200/80">
-            Topic-first explanations for programming, data structures, algorithms, systems, databases, networking,
-            cybersecurity, and maths.
-          </p>
-          <div className="mt-6 max-w-2xl">
-            <SearchBox />
-          </div>
-        </div>
-      </section>
+  const [query, setQuery] = useState("");
+  const results = useMemo(() => searchLearningContent(query), [query]);
 
-      <section className="page-shell py-10">
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {categories.map((category) => (
-            <CategoryCard
-              key={category.slug}
-              count={category.subtopics.length}
-              description={category.description}
-              href={`/tutorials/${category.slug}`}
-              title={category.title}
-            />
-          ))}
-        </div>
-      </section>
-    </>
+  return (
+    <section className="page-shell py-12">
+      <a className="focus-ring text-sm font-semibold text-circuit-300" href="/">
+        TensorTutors
+      </a>
+      <h1 className="mt-5 text-4xl font-semibold text-chalk-100">Tutorials</h1>
+      <p className="mt-4 max-w-2xl text-base leading-7 text-chalk-200/80">
+        Choose a major Computer Science topic, then read through its subtopics and concepts.
+      </p>
+
+      <div className="mt-8">
+        <SearchBar value={query} onChange={setQuery} results={results} />
+      </div>
+
+      <div className="mt-10">
+        <TopicGrid topics={majorTopics} />
+      </div>
+    </section>
   );
 }

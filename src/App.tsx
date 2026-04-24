@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { Footer } from "./components/Footer";
-import { TopNav } from "./components/TopNav";
-import { normalizePath, resolveRoute, routes } from "./routes";
+import { normalizePath, resolveRoute } from "./routes";
 
 function getPathFromLocation(): string {
   const rawPath = window.location.pathname || "/";
@@ -61,7 +60,6 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-ink-950 text-chalk-100">
-      <TopNav activePath={activeRoute.activePath} routes={routes} />
       <main>{activeRoute.element}</main>
       <Footer />
     </div>
