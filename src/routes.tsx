@@ -1,28 +1,16 @@
 import type { ReactElement } from "react";
-import { ExamPrep } from "./pages/ExamPrep";
-import { Glossary } from "./pages/Glossary";
 import { Home } from "./pages/Home";
-import { Learn } from "./pages/Learn";
-import { LessonPage } from "./pages/LessonPage";
 import { NotFound } from "./pages/NotFound";
-import { PathwayPage } from "./pages/PathwayPage";
-import { Practise } from "./pages/Practise";
+import { Exercises } from "./pages/Exercises";
 import { Projects } from "./pages/Projects";
-import { Roadmaps } from "./pages/Roadmaps";
-import { TopicPage } from "./pages/TopicPage";
+import { References } from "./pages/References";
+import { Tutorials } from "./pages/Tutorials";
+import { TutorialCategory } from "./pages/TutorialCategory";
+import { TutorialTopic } from "./pages/TutorialTopic";
 import { Visualisers } from "./pages/Visualisers";
-import { getPathwayById, getTopicForPathway } from "./data/topics";
-import type { PathwayId } from "./types/topic";
+import { getCategoryBySlug, getTopicBySlug } from "./data/topics";
 
-export type RoutePath =
-  | "/"
-  | "/learn"
-  | "/practise"
-  | "/visualisers"
-  | "/projects"
-  | "/exam-prep"
-  | "/roadmaps"
-  | "/glossary";
+export type RoutePath = "/" | "/tutorials" | "/references" | "/exercises" | "/visualisers" | "/projects";
 
 export type AppRoute = {
   path: RoutePath;
@@ -30,14 +18,11 @@ export type AppRoute = {
 };
 
 export const routes: AppRoute[] = [
-  { path: "/", label: "Home" },
-  { path: "/learn", label: "Learn" },
-  { path: "/practise", label: "Practise" },
+  { path: "/tutorials", label: "Tutorials" },
+  { path: "/references", label: "References" },
+  { path: "/exercises", label: "Exercises" },
   { path: "/visualisers", label: "Visualisers" },
   { path: "/projects", label: "Projects" },
-  { path: "/exam-prep", label: "Exam Prep" },
-  { path: "/roadmaps", label: "Roadmaps" },
-  { path: "/glossary", label: "Glossary" },
 ];
 
 type ResolvedRoute = {
@@ -47,13 +32,11 @@ type ResolvedRoute = {
 
 const staticPages: Record<RoutePath, ReactElement> = {
   "/": <Home />,
-  "/learn": <Learn />,
-  "/practise": <Practise />,
+  "/tutorials": <Tutorials />,
+  "/references": <References />,
+  "/exercises": <Exercises />,
   "/visualisers": <Visualisers />,
   "/projects": <Projects />,
-  "/exam-prep": <ExamPrep />,
-  "/roadmaps": <Roadmaps />,
-  "/glossary": <Glossary />,
 };
 
 export function normalizePath(rawPath: string): string {
@@ -73,37 +56,26 @@ export function resolveRoute(rawPath: string): ResolvedRoute {
     return { activePath: path as RoutePath, element: staticPage };
   }
 
-  const segments = path.split("/").filter(Boolean);
-  const [section, pathwaySegment, topicId, lessonSegment] = segments;
+  const [section, categorySlug, topicSlug] = path.split("/").filter(Boolean);
 
-  if (section === "learn" && pathwaySegment) {
-    const pathway = getPathwayById(pathwaySegment);
+  if (section === "tutorials" && categorySlug) {
+    const category = getCategoryBySlug(categorySlug);
 
-    if (!pathway) {
-      return { activePath: "/learn", element: <NotFound /> };
+    if (!category) {
+      return { activePath: "/tutorials", element: <NotFound /> };
     }
 
-    const pathwayId = pathway.id as PathwayId;
-
-    if (segments.length === 2) {
-      return { activePath: "/learn", element: <PathwayPage pathwayId={pathwayId} /> };
+    if (!topicSlug) {
+      return { activePath: "/tutorials", element: <TutorialCategory category={category} /> };
     }
 
-    const topic = getTopicForPathway(pathwayId, topicId);
+    const topic = getTopicBySlug(categorySlug, topicSlug);
 
     if (!topic) {
-      return { activePath: "/learn", element: <NotFound /> };
+      return { activePath: "/tutorials", element: <NotFound /> };
     }
 
-    if (segments.length === 3) {
-      return { activePath: "/learn", element: <TopicPage pathwayId={pathwayId} topicId={topic.id} /> };
-    }
-
-    if (segments.length === 4 && lessonSegment === "lesson") {
-      return { activePath: "/learn", element: <LessonPage pathwayId={pathwayId} topicId={topic.id} /> };
-    }
-
-    return { activePath: "/learn", element: <NotFound /> };
+    return { activePath: "/tutorials", element: <TutorialTopic category={category} topic={topic} /> };
   }
 
   return { activePath: "/", element: <NotFound /> };

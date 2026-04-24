@@ -1,32 +1,59 @@
-export type PathwayId = "gcse" | "alevel" | "core";
+export type ContentBlock =
+  | {
+      type: "paragraph";
+      text: string;
+    }
+  | {
+      type: "list";
+      items: string[];
+    }
+  | {
+      type: "code";
+      language: string;
+      code: string;
+    }
+  | {
+      type: "info";
+      variant: "note" | "warning";
+      title: string;
+      body: string;
+    }
+  | {
+      type: "table";
+      columns: string[];
+      rows: string[][];
+    };
 
-export type TopicLevel = "GCSE" | "A-Level" | "Core";
-
-export type TopicStatus = "ready" | "planned";
-
-export type Pathway = {
-  id: PathwayId;
-  label: string;
-  level: TopicLevel;
-  title: string;
-  summary: string;
-};
-
-export type LessonContent = {
-  explanation: string;
-  workedExample: string;
-  commonMistakes: string[];
-  nextSteps: string[];
-};
-
-export type Topic = {
+export type TutorialSection = {
   id: string;
   title: string;
-  area: string;
-  level: TopicLevel;
-  order: number;
+  blocks: ContentBlock[];
+};
+
+export type Subtopic = {
+  slug: string;
+  title: string;
   summary: string;
-  objectives: string[];
-  status: TopicStatus;
-  lesson: LessonContent;
+  sections: TutorialSection[];
+};
+
+export type TutorialCategory = {
+  slug: string;
+  title: string;
+  description: string;
+  subtopics: Subtopic[];
+};
+
+export type ReferenceItem = {
+  title: string;
+  category: string;
+  summary: string;
+  href: string;
+};
+
+export type ExerciseSet = {
+  title: string;
+  category: string;
+  summary: string;
+  href: string;
 };

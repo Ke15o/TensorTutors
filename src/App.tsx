@@ -1,29 +1,67 @@
 import { useEffect, useMemo, useState } from "react";
-import { Navbar } from "./components/Navbar";
 import { Footer } from "./components/Footer";
+import { TopNav } from "./components/TopNav";
 import { normalizePath, resolveRoute, routes } from "./routes";
 
-function getPathFromHash(): string {
-  const rawPath = window.location.hash.replace("#", "") || "/";
+function getPathFromLocation(): string {
+  const rawPath = window.location.pathname || "/";
 
   return normalizePath(rawPath);
 }
 
 export default function App() {
-  const [currentPath, setCurrentPath] = useState(getPathFromHash);
+  const [currentPath, setCurrentPath] = useState(getPathFromLocation);
 
   useEffect(() => {
-    const syncPath = () => setCurrentPath(getPathFromHash());
+    const redirectedPath = window.sessionStorage.getItem("tensortutors.redirect");
 
-    window.addEventListener("hashchange", syncPath);
-    return () => window.removeEventListener("hashchange", syncPath);
+    if (redirectedPath) {
+      window.sessionStorage.removeItem("tensortutors.redirect");
+      window.history.replaceState(null, "", redirectedPath);
+      setCurrentPath(normalizePath(new URL(redirectedPath, window.location.origin).pathname));
+    }
+
+    const syncPath = () => setCurrentPath(getPathFromLocation());
+
+    const handleClick = (event: MouseEvent) => {
+      const anchor = (event.target as HTMLElement).closest("a");
+
+      if (!anchor || anchor.target) {
+        return;
+      }
+
+      const href = anchor.getAttribute("href");
+
+      if (!href || href.startsWith("#") || href.startsWith("mailto:")) {
+        return;
+      }
+
+      const url = new URL(anchor.href);
+
+      if (url.origin !== window.location.origin) {
+        return;
+      }
+
+      event.preventDefault();
+      window.history.pushState(null, "", `${url.pathname}${url.search}${url.hash}`);
+      setCurrentPath(normalizePath(url.pathname));
+      window.scrollTo({ top: 0 });
+    };
+
+    window.addEventListener("popstate", syncPath);
+    document.addEventListener("click", handleClick);
+
+    return () => {
+      window.removeEventListener("popstate", syncPath);
+      document.removeEventListener("click", handleClick);
+    };
   }, []);
 
   const activeRoute = useMemo(() => resolveRoute(currentPath), [currentPath]);
 
   return (
     <div className="min-h-screen bg-ink-950 text-chalk-100">
-      <Navbar activePath={activeRoute.activePath} routes={routes} />
+      <TopNav activePath={activeRoute.activePath} routes={routes} />
       <main>{activeRoute.element}</main>
       <Footer />
     </div>
