@@ -59,8 +59,8 @@ export default function App() {
   const activeRoute = useMemo(() => resolveRoute(currentPath), [currentPath]);
 
   return (
-    <div className="min-h-screen bg-ink-950 text-chalk-100">
-      <main>{activeRoute.element}</main>
+    <div className="flex min-h-screen flex-col bg-ink-950 text-chalk-100">
+      <main className="flex-1">{activeRoute.element}</main>
       <Footer />
     </div>
   );
