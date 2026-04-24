@@ -80,7 +80,7 @@ export function TutorialSidebar({ topic, activeConceptId }: TutorialSidebarProps
 
           {hasMobileOverflow ? (
             <div
-              className="focus-ring mx-auto flex h-8 w-16 cursor-pointer items-center justify-center text-lg font-semibold leading-none text-chalk-300/70 transition-colors duration-200 hover:text-circuit-300 lg:hidden"
+              className="focus-ring mx-auto flex h-8 w-32 cursor-pointer items-center justify-center text-lg font-semibold leading-none text-chalk-300/70 transition-colors duration-200 hover:text-circuit-300 lg:hidden"
               role="button"
               tabIndex={0}
               aria-expanded={isExpanded}
