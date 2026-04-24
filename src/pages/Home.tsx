@@ -8,9 +8,15 @@ export function Home() {
   const results = useMemo(() => searchLearningContent(query), [query]);
 
   return (
-    <main className="page-shell flex min-h-[calc(100vh-5rem)] flex-col items-center justify-center py-14 text-center">
-      <h1 className="text-5xl font-semibold text-chalk-100 sm:text-6xl">TensorTutors</h1>
-      <p className="mt-5 text-lg text-chalk-200/80">Computer Science revision, explained clearly.</p>
+    <main className="page-shell flex min-h-[calc(100vh-5rem)] flex-col items-center justify-center py-12 text-center sm:py-14">
+      <div className="flex flex-col items-center">
+        <p className="text-xs font-semibold uppercase tracking-[0.28em] text-chalk-400">STRUCTURED LEARNING</p>
+        <h1 className="mt-4 text-4xl font-semibold tracking-[0.03em] text-chalk-100 sm:text-5xl md:text-6xl">
+          <span>Tensor</span>
+          <span className="text-circuit-300">Tutors</span>
+        </h1>
+        <p className="mt-3 font-sans text-base leading-7 text-chalk-200/75 sm:text-lg">Understand Computer Science — fast.</p>
+      </div>
 
       <div className="mt-8 w-full">
         <SearchBar value={query} onChange={setQuery} results={results} />

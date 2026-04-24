@@ -25,6 +25,21 @@ a {
   -webkit-tap-highlight-color: transparent;
 }
 
+@layer base {
+  body {
+    @apply font-sans leading-relaxed;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-heading;
+  }
+}
+
 @layer components {
   .page-shell {
     @apply mx-auto w-full max-w-7xl px-5 sm:px-6 lg:px-8;
