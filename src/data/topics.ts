@@ -1,442 +1,353 @@
-import type { ExerciseSet, ReferenceItem, Subtopic, TutorialCategory } from "../types/topic";
+import type { Concept, ConceptLocation, MajorTopic, SearchResult, Subtopic } from "../types/topic";
 
-const placeholderSections = (title: string, summary: string) => [
-  {
-    id: "overview",
-    title: `What is ${title}?`,
-    blocks: [
-      {
-        type: "paragraph" as const,
-        text: summary,
-      },
-      {
-        type: "info" as const,
-        variant: "note" as const,
-        title: "Reference page in progress",
-        body: "This topic is part of the reference structure. Full worked examples and practice questions can be added here without changing the routing or layout.",
-      },
-    ],
+const stubConcept = (id: string, title: string, summary: string): Concept => ({
+  id,
+  title,
+  slug: id,
+  summary,
+  explanation: [
+    `${title} is part of the TensorTutors reference map. This page starts with the core definition, then expands into examples, visual notes, exercises, and common mistakes as the topic grows.`,
+  ],
+  visualiser: {
+    title: "Visualiser placeholder",
+    description: "A focused inline visualiser can sit here when this concept is expanded.",
   },
-];
+  exercises: [
+    {
+      prompt: `Write a two-sentence explanation of ${title.toLowerCase()} in your own words.`,
+      hint: "Use the summary, then add one concrete example.",
+    },
+  ],
+  commonMistakes: ["Memorising the term without connecting it to an example."],
+});
 
-export const categories: TutorialCategory[] = [
+export const majorTopics: MajorTopic[] = [
   {
-    slug: "programming",
-    title: "Programming",
-    description: "Core programming ideas, Python syntax, control flow, functions, and debugging habits.",
+    id: "python",
+    title: "Python",
+    slug: "python",
+    summary: "Python syntax, program structure, functions, and object-oriented programming.",
     subtopics: [
       {
-        slug: "programming-fundamentals",
-        title: "Programming Fundamentals",
-        summary: "Variables, sequence, selection, iteration, functions, and trace tables.",
-        sections: placeholderSections(
-          "programming fundamentals",
-          "Programming fundamentals are the small set of ideas that appear in almost every program.",
-        ),
-      },
-      {
-        slug: "python-basics",
-        title: "Python Basics",
-        summary: "Data types, expressions, conditions, loops, functions, and files in Python.",
-        sections: placeholderSections("Python basics", "Python is a readable language for expressing algorithms precisely."),
-      },
-      {
-        slug: "debugging",
-        title: "Debugging",
-        summary: "Strategies for finding syntax, runtime, and logic errors.",
-        sections: placeholderSections("debugging", "Debugging is the process of locating and fixing incorrect program behaviour."),
-      },
-    ],
-  },
-  {
-    slug: "data-structures",
-    title: "Data Structures",
-    description: "Ways to organise data so operations such as access, insertion, deletion, and traversal are efficient.",
-    subtopics: [
-      {
-        slug: "arrays",
-        title: "Arrays",
-        summary: "Indexed, contiguous collections with fast access and fixed-size trade-offs.",
-        sections: placeholderSections("arrays", "An array stores values in indexed positions, usually in contiguous memory."),
-      },
-      {
-        slug: "linked-lists",
-        title: "Linked Lists",
-        summary: "A sequence of nodes where each node stores data and one or more links to other nodes.",
-        sections: [
-          {
-            id: "what-is-a-linked-list",
-            title: "What is a linked list?",
-            blocks: [
-              {
-                type: "paragraph",
-                text: "A linked list is a linear data structure made from nodes. Each node stores a value and a reference to the next node in the sequence. Unlike an array, the nodes do not need to sit next to each other in memory.",
-              },
-              {
-                type: "paragraph",
-                text: "Linked lists are useful when you need frequent insertion and deletion near known positions, or when the collection size changes often. They are less useful when you need constant-time indexed access.",
-              },
-              {
-                type: "info",
-                variant: "note",
-                title: "Key idea",
-                body: "A linked list trades direct indexing for flexible links between nodes.",
-              },
-            ],
-          },
-          {
-            id: "nodes-and-pointers",
-            title: "Nodes and pointers",
-            blocks: [
-              {
-                type: "paragraph",
-                text: "A node is the basic building block of a linked list. In a singly linked list, each node has data and a pointer to the next node. The first node is called the head.",
-              },
-              {
-                type: "code",
-                language: "ts",
-                code: `type ListNode<T> = {\n  value: T;\n  next: ListNode<T> | null;\n};\n\nconst head: ListNode<number> = {\n  value: 10,\n  next: {\n    value: 20,\n    next: null,\n  },\n};`,
-              },
-            ],
-          },
-          {
-            id: "singly-vs-doubly",
-            title: "Singly vs doubly linked lists",
-            blocks: [
-              {
-                type: "paragraph",
-                text: "A singly linked list only points forward. A doubly linked list points forward and backward, which makes reverse traversal easier but uses extra memory per node.",
-              },
-              {
-                type: "table",
-                columns: ["Type", "Links per node", "Strength", "Trade-off"],
-                rows: [
-                  ["Singly linked list", "next", "Simple and memory efficient", "Cannot move backward from a node"],
-                  ["Doubly linked list", "previous and next", "Can traverse both directions", "Uses more memory and more pointer updates"],
-                ],
-              },
-            ],
-          },
-          {
-            id: "traversal",
-            title: "Traversal",
-            blocks: [
-              {
-                type: "paragraph",
-                text: "Traversal means visiting nodes one at a time, starting at the head and following links until the current node is null.",
-              },
-              {
-                type: "code",
-                language: "ts",
-                code: `function printList<T>(head: ListNode<T> | null) {\n  let current = head;\n\n  while (current !== null) {\n    console.log(current.value);\n    current = current.next;\n  }\n}`,
-              },
-            ],
-          },
-          {
-            id: "insertion",
-            title: "Insertion",
-            blocks: [
-              {
-                type: "paragraph",
-                text: "Insertion changes links so a new node becomes part of the chain. Inserting at the head is usually constant time because only the new node and head reference need updating.",
-              },
-              {
-                type: "code",
-                language: "ts",
-                code: `function insertAtHead<T>(head: ListNode<T> | null, value: T): ListNode<T> {\n  return {\n    value,\n    next: head,\n  };\n}`,
-              },
-              {
-                type: "info",
-                variant: "warning",
-                title: "Pointer order matters",
-                body: "When inserting in the middle, connect the new node to the next node before redirecting the previous node. Otherwise part of the list can become unreachable.",
-              },
-            ],
-          },
-          {
-            id: "deletion",
-            title: "Deletion",
-            blocks: [
-              {
-                type: "paragraph",
-                text: "Deletion removes a node by changing the previous node's link so it skips over the deleted node. If the head is deleted, the head reference must move to the next node.",
-              },
-              {
-                type: "code",
-                language: "ts",
-                code: `function deleteHead<T>(head: ListNode<T> | null): ListNode<T> | null {\n  if (head === null) {\n    return null;\n  }\n\n  return head.next;\n}`,
-              },
-            ],
-          },
-          {
-            id: "time-complexity",
-            title: "Time complexity",
-            blocks: [
-              {
-                type: "table",
-                columns: ["Operation", "Singly linked list", "Reason"],
-                rows: [
-                  ["Access by index", "O(n)", "You may need to traverse from the head"],
-                  ["Search", "O(n)", "Each node may need checking"],
-                  ["Insert at head", "O(1)", "Only the head link changes"],
-                  ["Delete after known node", "O(1)", "Only local links change"],
-                  ["Insert at end", "O(n)", "Unless a tail pointer is stored"],
-                ],
-              },
-            ],
-          },
-          {
-            id: "linked-lists-vs-arrays",
-            title: "Linked lists vs arrays",
-            blocks: [
-              {
-                type: "table",
-                columns: ["Question", "Array", "Linked list"],
-                rows: [
-                  ["Fast indexed access?", "Yes, O(1)", "No, usually O(n)"],
-                  ["Cheap insertion at front?", "Usually no", "Yes, O(1)"],
-                  ["Memory overhead?", "Low", "Higher because links are stored"],
-                  ["Cache-friendly?", "Usually yes", "Usually less cache-friendly"],
-                ],
-              },
-              {
-                type: "info",
-                variant: "note",
-                title: "Exam phrasing",
-                body: "Do not say linked lists are always faster. Say which operation is faster and why.",
-              },
-            ],
-          },
-          {
-            id: "common-mistakes",
-            title: "Common mistakes",
-            blocks: [
-              {
-                type: "list",
-                items: [
-                  "Assuming linked lists support direct indexing like arrays.",
-                  "Losing the rest of the list by overwriting a pointer too early.",
-                  "Forgetting to handle an empty list.",
-                  "Forgetting to update both directions in a doubly linked list.",
-                ],
-              },
-            ],
-          },
-          {
-            id: "practice-questions",
-            title: "Short practice questions",
-            blocks: [
-              {
-                type: "list",
-                items: [
-                  "Why is inserting at the head of a linked list O(1)?",
-                  "What extra pointer does a doubly linked list store?",
-                  "When would an array be a better choice than a linked list?",
-                  "Write pseudocode to count the number of nodes in a singly linked list.",
-                ],
-              },
-            ],
-          },
+        id: "basics",
+        title: "Basics",
+        slug: "basics",
+        summary: "The essentials needed to read and write small Python programs.",
+        concepts: [
+          stubConcept("variables", "Variables", "Names that refer to values stored while a program runs."),
+          stubConcept("control-flow", "Control Flow", "The order in which Python decides and repeats program steps."),
+          stubConcept("functions", "Functions", "Reusable named blocks of code with inputs, behaviour, and outputs."),
         ],
       },
       {
-        slug: "stacks",
-        title: "Stacks",
-        summary: "Last-in, first-out collections used for calls, undo, and parsing.",
-        sections: placeholderSections("stacks", "A stack stores items so the most recently added item is removed first."),
-      },
-      {
-        slug: "queues",
-        title: "Queues",
-        summary: "First-in, first-out collections used for scheduling and buffering.",
-        sections: placeholderSections("queues", "A queue stores items so the earliest added item is removed first."),
+        id: "object-oriented-programming",
+        title: "Object-Oriented Programming",
+        slug: "object-oriented-programming",
+        summary: "Classes, objects, attributes, methods, and relationships between types.",
+        concepts: [
+          {
+            id: "classes",
+            title: "Classes",
+            slug: "classes",
+            summary: "A class is a blueprint for creating objects with related data and behaviour.",
+            explanation: [
+              "A class defines a new type of thing in your program. It describes what data that thing stores and what actions it can perform. Objects are the actual instances created from the class.",
+              "Classes are useful when a program has several related values and behaviours that should move together. Instead of passing separate variables around, you can group them into a single object with a clear responsibility.",
+              "Attributes are values stored on an object. Methods are functions that belong to a class and usually work with the object's attributes through `self`.",
+            ],
+            exampleCode: {
+              language: "python",
+              code: `class Student:\n    def __init__(self, name, mark):\n        self.name = name\n        self.mark = mark\n\n    def has_passed(self):\n        return self.mark >= 40\n\nstudent = Student(\"Ada\", 82)\nprint(student.name)\nprint(student.has_passed())`,
+            },
+            visualiser: {
+              title: "Class to object",
+              description:
+                "Think of `Student` as the blueprint. `student` is one object built from it, with its own `name` and `mark` attributes.",
+            },
+            exercises: [
+              {
+                prompt:
+                  "Create a `Book` class with `title` and `author` attributes, then add a method called `description()` that returns a short sentence.",
+                hint: "Follow the `Student` example: use `__init__`, store attributes on `self`, then return a string from a method.",
+              },
+            ],
+            commonMistakes: [
+              "Forgetting `self` as the first parameter of an instance method.",
+              "Creating attributes as local variables instead of using `self.attribute_name`.",
+              "Treating a class as the object itself rather than as the blueprint used to create objects.",
+            ],
+          },
+          stubConcept("objects", "Objects", "Concrete instances created from a class."),
+          stubConcept("inheritance", "Inheritance", "A way for one class to reuse and specialise another class."),
+        ],
       },
     ],
   },
   {
-    slug: "algorithms",
+    id: "algorithms",
     title: "Algorithms",
-    description: "Searching, sorting, recursion, graph traversal, complexity, and algorithmic problem solving.",
+    slug: "algorithms",
+    summary: "Searching, sorting, tracing, and reasoning about algorithm efficiency.",
     subtopics: [
       {
-        slug: "binary-search",
-        title: "Binary Search",
-        summary: "A divide-and-conquer search algorithm for sorted data.",
-        sections: placeholderSections("binary search", "Binary search repeatedly halves a sorted search space."),
+        id: "searching",
+        title: "Searching",
+        slug: "searching",
+        summary: "Finding values in collections using systematic procedures.",
+        concepts: [
+          stubConcept("linear-search", "Linear Search", "Check each item one by one until the target is found or the data ends."),
+          stubConcept("binary-search", "Binary Search", "Repeatedly halve a sorted search space."),
+        ],
       },
       {
+        id: "sorting",
+        title: "Sorting",
         slug: "sorting",
-        title: "Sorting Algorithms",
-        summary: "How common sorting methods rearrange data and compare in efficiency.",
-        sections: placeholderSections("sorting algorithms", "Sorting algorithms arrange data into a defined order."),
-      },
-      {
-        slug: "big-o",
-        title: "Big O",
-        summary: "A way to describe how resource use grows with input size.",
-        sections: placeholderSections("Big O", "Big O describes growth rates rather than exact running times."),
+        summary: "Rearranging values into a defined order.",
+        concepts: [
+          stubConcept("bubble-sort", "Bubble Sort", "Repeatedly compare neighbours and move larger values right."),
+          stubConcept("merge-sort", "Merge Sort", "Divide the data, sort the parts, then merge them back together."),
+        ],
       },
     ],
   },
   {
-    slug: "computer-systems",
+    id: "data-structures",
+    title: "Data Structures",
+    slug: "data-structures",
+    summary: "Arrays, stacks, queues, linked lists, and how data organisation affects operations.",
+    subtopics: [
+      {
+        id: "linear-structures",
+        title: "Linear Structures",
+        slug: "linear-structures",
+        summary: "Structures where items are arranged in a sequence.",
+        concepts: [
+          stubConcept("arrays", "Arrays", "Indexed collections where each position stores a value."),
+          stubConcept("stacks", "Stacks", "Last-in, first-out collections."),
+          stubConcept("queues", "Queues", "First-in, first-out collections."),
+          stubConcept("linked-lists", "Linked Lists", "Nodes connected by references rather than direct indexing."),
+        ],
+      },
+    ],
+  },
+  {
+    id: "computer-systems",
     title: "Computer Systems",
-    description: "CPU architecture, memory, storage, operating systems, binary, and data representation.",
+    slug: "computer-systems",
+    summary: "Hardware, operating systems, memory, storage, and data representation.",
     subtopics: [
       {
-        slug: "cpu-architecture",
-        title: "CPU Architecture",
-        summary: "Registers, buses, instruction cycles, and the components that execute programs.",
-        sections: placeholderSections("CPU architecture", "CPU architecture explains how instructions are fetched, decoded, and executed."),
-      },
-      {
-        slug: "data-representation",
-        title: "Data Representation",
-        summary: "Binary, hexadecimal, characters, images, sound, compression, and units.",
-        sections: placeholderSections("data representation", "Data representation is how computers encode information using bits."),
-      },
-      {
-        slug: "operating-systems",
-        title: "Operating Systems",
-        summary: "Resource management, processes, files, users, and utilities.",
-        sections: placeholderSections("operating systems", "An operating system manages hardware and software resources."),
+        id: "architecture",
+        title: "Architecture",
+        slug: "architecture",
+        summary: "How computer components work together to execute programs.",
+        concepts: [
+          stubConcept("cpu", "CPU", "The processor that fetches, decodes, and executes instructions."),
+          stubConcept("memory", "Memory", "Fast working storage used while programs run."),
+        ],
       },
     ],
   },
   {
-    slug: "databases",
+    id: "databases",
     title: "Databases",
-    description: "Tables, relationships, keys, queries, normalisation, and database design.",
+    slug: "databases",
+    summary: "Tables, keys, relationships, queries, and database design.",
     subtopics: [
       {
-        slug: "relational-databases",
+        id: "relational-databases",
         title: "Relational Databases",
-        summary: "Tables, records, fields, relationships, and constraints.",
-        sections: placeholderSections("relational databases", "Relational databases store data in tables connected by keys."),
-      },
-      {
-        slug: "sql-basics",
-        title: "SQL Basics",
-        summary: "Selecting, filtering, ordering, inserting, and updating records.",
-        sections: placeholderSections("SQL basics", "SQL is a language for querying and changing relational data."),
+        slug: "relational-databases",
+        summary: "Data stored in related tables.",
+        concepts: [
+          stubConcept("tables", "Tables", "Structured rows and columns used to store related data."),
+          stubConcept("primary-keys", "Primary Keys", "Fields that uniquely identify records."),
+        ],
       },
     ],
   },
   {
-    slug: "networking",
+    id: "networking",
     title: "Networking",
-    description: "Protocols, packet switching, addressing, topologies, layers, and the web.",
+    slug: "networking",
+    summary: "Protocols, packets, addressing, topologies, and the web.",
     subtopics: [
       {
-        slug: "network-models",
-        title: "Network Models",
-        summary: "Layered models for organising protocols and communication responsibilities.",
-        sections: placeholderSections("network models", "Network models group communication tasks into layers."),
-      },
-      {
-        slug: "packet-switching",
-        title: "Packet Switching",
-        summary: "How messages are split, routed, and reassembled across networks.",
-        sections: placeholderSections("packet switching", "Packet switching sends data in small chunks that can travel independently."),
+        id: "network-basics",
+        title: "Network Basics",
+        slug: "network-basics",
+        summary: "Core ideas needed to describe how devices communicate.",
+        concepts: [
+          stubConcept("packets", "Packets", "Small chunks of data sent across a network."),
+          stubConcept("protocols", "Protocols", "Agreed rules for communication between devices."),
+        ],
       },
     ],
   },
   {
-    slug: "cybersecurity",
+    id: "cybersecurity",
     title: "Cybersecurity",
-    description: "Threats, vulnerabilities, malware, authentication, encryption, and defensive habits.",
+    slug: "cybersecurity",
+    summary: "Threats, vulnerabilities, authentication, malware, and defensive thinking.",
     subtopics: [
       {
-        slug: "malware",
-        title: "Malware",
-        summary: "Viruses, worms, trojans, ransomware, spyware, and prevention.",
-        sections: placeholderSections("malware", "Malware is software designed to damage, disrupt, or gain unauthorised access."),
-      },
-      {
-        slug: "authentication",
-        title: "Authentication",
-        summary: "How systems check identity using passwords, MFA, biometrics, and tokens.",
-        sections: placeholderSections("authentication", "Authentication is the process of verifying identity."),
+        id: "security-basics",
+        title: "Security Basics",
+        slug: "security-basics",
+        summary: "Common risks and controls used to protect systems.",
+        concepts: [
+          stubConcept("malware", "Malware", "Software designed to harm, disrupt, or gain unauthorised access."),
+          stubConcept("authentication", "Authentication", "Checking that a user or system is who it claims to be."),
+        ],
       },
     ],
   },
   {
-    slug: "maths-for-cs",
+    id: "maths-for-cs",
     title: "Maths for CS",
-    description: "Logic, sets, graphs, counting, functions, proof, and notation used in Computer Science.",
+    slug: "maths-for-cs",
+    summary: "Logic, graphs, sets, functions, and notation used in Computer Science.",
     subtopics: [
       {
-        slug: "boolean-logic",
-        title: "Boolean Logic",
-        summary: "Truth values, operators, truth tables, expressions, and logic gates.",
-        sections: placeholderSections("Boolean logic", "Boolean logic uses true and false values to reason about conditions."),
-      },
-      {
-        slug: "graphs",
-        title: "Graphs",
-        summary: "Vertices, edges, paths, cycles, weights, and graph traversal.",
-        sections: placeholderSections("graphs", "Graphs model relationships between objects."),
+        id: "discrete-maths",
+        title: "Discrete Maths",
+        slug: "discrete-maths",
+        summary: "Mathematical structures used for algorithms and systems.",
+        concepts: [
+          stubConcept("boolean-logic", "Boolean Logic", "Reasoning with true and false values."),
+          stubConcept("graphs", "Graphs", "Vertices and edges used to model relationships."),
+        ],
       },
     ],
   },
 ];
 
-export const references: ReferenceItem[] = [
-  {
-    title: "Time Complexity",
-    category: "Algorithms",
-    summary: "Common Big O classes and how to compare algorithm growth.",
-    href: "/tutorials/algorithms/big-o",
-  },
-  {
-    title: "Linked List Operations",
-    category: "Data Structures",
-    summary: "Traversal, insertion, deletion, and complexity at a glance.",
-    href: "/tutorials/data-structures/linked-lists",
-  },
-  {
-    title: "Boolean Operators",
-    category: "Maths for CS",
-    summary: "AND, OR, NOT, XOR, truth tables, and common exam wording.",
-    href: "/tutorials/maths-for-cs/boolean-logic",
-  },
-];
-
-export const exercises: ExerciseSet[] = [
-  {
-    title: "Linked List Trace Questions",
-    category: "Data Structures",
-    summary: "Trace pointer changes during insertion and deletion.",
-    href: "/tutorials/data-structures/linked-lists",
-  },
-  {
-    title: "Binary Search Dry Runs",
-    category: "Algorithms",
-    summary: "Follow low, high, and mid values through sorted arrays.",
-    href: "/tutorials/algorithms/binary-search",
-  },
-  {
-    title: "Boolean Logic Tables",
-    category: "Maths for CS",
-    summary: "Complete truth tables and simplify simple expressions.",
-    href: "/tutorials/maths-for-cs/boolean-logic",
-  },
-];
-
-export function getCategoryBySlug(categorySlug: string): TutorialCategory | undefined {
-  return categories.find((category) => category.slug === categorySlug);
+export function getMajorTopic(topicSlug: string): MajorTopic | undefined {
+  return majorTopics.find((topic) => topic.slug === topicSlug);
 }
 
-export function getTopicBySlug(categorySlug: string, topicSlug: string): Subtopic | undefined {
-  return getCategoryBySlug(categorySlug)?.subtopics.find((topic) => topic.slug === topicSlug);
-}
-
-export function getAdjacentTopics(categorySlug: string, topicSlug: string) {
-  const category = getCategoryBySlug(categorySlug);
-  const index = category?.subtopics.findIndex((topic) => topic.slug === topicSlug) ?? -1;
+export function getFirstConcept(topic: MajorTopic): ConceptLocation {
+  const subtopic = topic.subtopics[0];
+  const concept = subtopic.concepts[0];
 
   return {
-    previous: index > 0 ? category?.subtopics[index - 1] : undefined,
-    next: category && index >= 0 && index < category.subtopics.length - 1 ? category.subtopics[index + 1] : undefined,
+    topic,
+    subtopic,
+    concept,
+    conceptNumber: 1,
+    conceptTotal: getConceptCount(topic),
   };
+}
+
+export function getConceptLocation(
+  topicSlug: string,
+  subtopicSlug?: string,
+  conceptSlug?: string,
+): ConceptLocation | undefined {
+  const topic = getMajorTopic(topicSlug);
+
+  if (!topic) {
+    return undefined;
+  }
+
+  if (!subtopicSlug || !conceptSlug) {
+    return getFirstConcept(topic);
+  }
+
+  let conceptNumber = 0;
+
+  for (const subtopic of topic.subtopics) {
+    for (const concept of subtopic.concepts) {
+      conceptNumber += 1;
+
+      if (subtopic.slug === subtopicSlug && concept.slug === conceptSlug) {
+        return {
+          topic,
+          subtopic,
+          concept,
+          conceptNumber,
+          conceptTotal: getConceptCount(topic),
+        };
+      }
+    }
+  }
+
+  return undefined;
+}
+
+export function getAdjacentConcepts(topic: MajorTopic, activeConceptId: string) {
+  const concepts = flattenConcepts(topic);
+  const index = concepts.findIndex((item) => item.concept.id === activeConceptId);
+
+  return {
+    previous: index > 0 ? concepts[index - 1] : undefined,
+    next: index >= 0 && index < concepts.length - 1 ? concepts[index + 1] : undefined,
+  };
+}
+
+export function getConceptHref(topic: MajorTopic, subtopic: Subtopic, concept: Concept): string {
+  return `/tutorials/${topic.slug}/${subtopic.slug}/${concept.slug}`;
+}
+
+export function getConceptCount(topic: MajorTopic): number {
+  return topic.subtopics.reduce((total, subtopic) => total + subtopic.concepts.length, 0);
+}
+
+export function flattenConcepts(topic: MajorTopic) {
+  return topic.subtopics.flatMap((subtopic) =>
+    subtopic.concepts.map((concept) => ({
+      topic,
+      subtopic,
+      concept,
+      href: getConceptHref(topic, subtopic, concept),
+    })),
+  );
+}
+
+export function searchLearningContent(query: string): SearchResult[] {
+  const normalizedQuery = query.trim().toLowerCase();
+
+  if (!normalizedQuery) {
+    return [];
+  }
+
+  const results: SearchResult[] = [];
+
+  for (const topic of majorTopics) {
+    if (`${topic.title} ${topic.summary}`.toLowerCase().includes(normalizedQuery)) {
+      const firstConcept = getFirstConcept(topic);
+      results.push({
+        title: topic.title,
+        subtitle: "Major topic",
+        summary: topic.summary,
+        href: getConceptHref(topic, firstConcept.subtopic, firstConcept.concept),
+      });
+    }
+
+    for (const subtopic of topic.subtopics) {
+      if (`${subtopic.title} ${subtopic.summary}`.toLowerCase().includes(normalizedQuery)) {
+        const firstConcept = subtopic.concepts[0];
+        results.push({
+          title: subtopic.title,
+          subtitle: topic.title,
+          summary: subtopic.summary,
+          href: getConceptHref(topic, subtopic, firstConcept),
+        });
+      }
+
+      for (const concept of subtopic.concepts) {
+        if (`${concept.title} ${concept.summary}`.toLowerCase().includes(normalizedQuery)) {
+          results.push({
+            title: concept.title,
+            subtitle: `${topic.title} / ${subtopic.title}`,
+            summary: concept.summary,
+            href: getConceptHref(topic, subtopic, concept),
+          });
+        }
+      }
+    }
+  }
+
+  return results.slice(0, 8);
 }

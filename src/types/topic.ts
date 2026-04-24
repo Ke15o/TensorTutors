@@ -1,59 +1,57 @@
-export type ContentBlock =
-  | {
-      type: "paragraph";
-      text: string;
-    }
-  | {
-      type: "list";
-      items: string[];
-    }
-  | {
-      type: "code";
-      language: string;
-      code: string;
-    }
-  | {
-      type: "info";
-      variant: "note" | "warning";
-      title: string;
-      body: string;
-    }
-  | {
-      type: "table";
-      columns: string[];
-      rows: string[][];
-    };
+export type CodeExample = {
+  language: string;
+  code: string;
+};
 
-export type TutorialSection = {
+export type InlineExercise = {
+  prompt: string;
+  hint?: string;
+};
+
+export type VisualiserPlaceholder = {
+  title: string;
+  description: string;
+};
+
+export type Concept = {
   id: string;
   title: string;
-  blocks: ContentBlock[];
+  slug: string;
+  summary: string;
+  explanation: string[];
+  exampleCode?: CodeExample;
+  visualiser?: VisualiserPlaceholder;
+  exercises?: InlineExercise[];
+  commonMistakes?: string[];
 };
 
 export type Subtopic = {
-  slug: string;
+  id: string;
   title: string;
+  slug: string;
   summary: string;
-  sections: TutorialSection[];
+  concepts: Concept[];
 };
 
-export type TutorialCategory = {
-  slug: string;
+export type MajorTopic = {
+  id: string;
   title: string;
-  description: string;
+  slug: string;
+  summary: string;
   subtopics: Subtopic[];
 };
 
-export type ReferenceItem = {
-  title: string;
-  category: string;
-  summary: string;
-  href: string;
+export type ConceptLocation = {
+  topic: MajorTopic;
+  subtopic: Subtopic;
+  concept: Concept;
+  conceptNumber: number;
+  conceptTotal: number;
 };
 
-export type ExerciseSet = {
+export type SearchResult = {
   title: string;
-  category: string;
+  subtitle: string;
   summary: string;
   href: string;
 };

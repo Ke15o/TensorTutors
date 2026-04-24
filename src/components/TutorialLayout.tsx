@@ -1,18 +1,20 @@
 import type { ReactNode } from "react";
 import { TutorialSidebar } from "./TutorialSidebar";
-import type { TutorialCategory } from "../types/topic";
+import type { MajorTopic } from "../types/topic";
 
 type TutorialLayoutProps = {
-  category: TutorialCategory;
-  activeTopicSlug?: string;
+  topic: MajorTopic;
+  activeConceptId: string;
   children: ReactNode;
 };
 
-export function TutorialLayout({ category, activeTopicSlug, children }: TutorialLayoutProps) {
+export function TutorialLayout({ topic, activeConceptId, children }: TutorialLayoutProps) {
   return (
-    <div className="page-shell grid gap-8 py-10 lg:grid-cols-[16rem_minmax(0,1fr)]">
-      <TutorialSidebar category={category} activeTopicSlug={activeTopicSlug} />
-      <div className="min-w-0">{children}</div>
+    <div className="min-h-screen lg:grid lg:grid-cols-[18rem_minmax(0,1fr)]">
+      <TutorialSidebar topic={topic} activeConceptId={activeConceptId} />
+      <div className="min-w-0 px-5 py-10 sm:px-6 lg:mx-auto lg:w-full lg:max-w-6xl lg:py-12 lg:pl-14 lg:pr-10">
+        {children}
+      </div>
     </div>
   );
 }
