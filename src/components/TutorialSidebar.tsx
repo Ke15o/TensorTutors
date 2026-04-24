@@ -88,15 +88,30 @@ export function TutorialSidebar({ topic, activeConceptId }: TutorialSidebarProps
               onClick={toggleExpanded}
               onKeyDown={handleToggleKeyDown}
             >
-              <span
+              <svg
                 className={classNames(
-                  "block transition-transform duration-300 ease-out",
-                  isExpanded ? "rotate-90" : "-rotate-90",
+                  "h-8 w-24 transition-transform duration-300 ease-out",
+                  isExpanded && "rotate-180",
                 )}
+                viewBox="0 0 64 48"
+                fill="none"
                 aria-hidden="true"
               >
-                &gt;&gt;
-              </span>
+                <path
+                  d="M6 27L32 11L58 27"
+                  stroke="currentColor"
+                  strokeWidth="4"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                <path
+                  d="M6 41L32 25L58 41"
+                  stroke="currentColor"
+                  strokeWidth="4"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
             </div>
           ) : null}
         </nav>
